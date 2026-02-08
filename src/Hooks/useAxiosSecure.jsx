@@ -3,7 +3,11 @@ import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router';
 import UseAuth from './UseAuth';
-import { handleBlockedError } from '../utils/handleBlockedError';
+
+
+
+
+
 
 
 
@@ -40,19 +44,13 @@ const useAxiosSecure = () => {
 
             const statusCode = error.response?.status;
 
-            if (statusCode === 401) {
+            if (statusCode === 401 || statusCode === 403) {
+
                 logOut().then(() => navigate('/login'));
 
             }
 
-            else if (statusCode === 403) {
 
-                // console.log("Blocked user error:", error.response?.data);
-                if (handleBlockedError(error)) {
-
-                    return Promise.reject(error);
-                }
-            }
 
 
             return Promise.reject(error);
