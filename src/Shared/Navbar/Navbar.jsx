@@ -23,7 +23,7 @@ const Navbar = () => {
 
     const { data: userData = [],
         // refetch
-        
+
     } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
@@ -79,7 +79,7 @@ const Navbar = () => {
         }>Services</NavLink>
 
 
-        <NavLink to="/aboutUs" className={({ isActive }) =>
+        <NavLink to="/about-us" className={({ isActive }) =>
             `mr-5 pb-1 font-semibold ${isActive ? "text-blue-800 border-b-2 border-blue-600"
                 : "text-gray-800 hover:text-blue-600"
             }`
@@ -111,7 +111,7 @@ const Navbar = () => {
 
                         </ul>
                     </div>
-                    <Link to="/" className="btn btn-ghost text-xl"><img className="w-10 h-10 rounded-full" src="https://i.ibb.co.com/7d0qMChV/image.png" alt="Logo" />CivicCare</Link>
+                    <Link to="/" className="btn btn-ghost text-xl"><img className="w-10 h-10 rounded-full" src="https://i.ibb.co.com/gLyJbp6H/image.png" alt="Logo" />Contestify</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -145,7 +145,7 @@ const Navbar = () => {
                                 <li className="flex flex-col items-start pb-3 border-b mb-3">
 
                                     <span className="text-lg font-semibold flex items-center">
-                                        {user.displayName || "User"}
+                                        {user.displayName || userData.displayName || "User"}
 
                                     </span>
 
