@@ -28,6 +28,14 @@ const Register = () => {
 
     const handleRegister = (data) => {
 
+        Swal.fire({
+            title: "Please Wait",
+            text: "Account is creating...",
+            icon: "info",
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
+
         // console.log("after register", data);
         // console.log("after register", data, data.photo[0]);
         const profileImg = data.photo[0];
@@ -45,7 +53,8 @@ const Register = () => {
                     .then(res => {
 
                         const photoURL = res.data.data.url;
-                        console.log(photoURL);
+
+                        // console.log(photoURL);
 
                         // create user in the database
                         const userInfo = {
@@ -57,13 +66,14 @@ const Register = () => {
                         axiosSecure.post('/users', userInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
-                                    console.log('user created in the database', res.data);
+                                    // console.log('user created in the database', res.data);
                                 }
                             })
 
 
                         // console.log('after image upload', res);
                         // console.log('after image upload', res.data.data.url);
+                        
                         // update the user profile
                         const userProfile = {
                             displayName: data.name,

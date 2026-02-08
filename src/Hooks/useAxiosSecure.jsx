@@ -17,7 +17,7 @@ const axiosSecure = axios.create({
 
 const useAxiosSecure = () => {
 
-    const { user, logOut } = UseAuth();
+    const { user, logOutUser } = UseAuth();
     // console.log(user);
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const useAxiosSecure = () => {
 
             if (statusCode === 401 || statusCode === 403) {
 
-                logOut().then(() => navigate('/login'));
+                logOutUser().then(() => navigate('/login'));
 
             }
 
@@ -61,7 +61,7 @@ const useAxiosSecure = () => {
             axiosSecure.interceptors.response.eject(resInterceptor);
         }
 
-    }, [user, logOut, navigate])
+    }, [user, logOutUser, navigate])
 
     return axiosSecure;
 };
