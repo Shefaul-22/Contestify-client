@@ -3,8 +3,7 @@ import { NavLink, Outlet } from 'react-router';
 
 import { FaRegCreditCard, FaUser } from 'react-icons/fa';
 import { MdJoinFull, MdReportProblem } from 'react-icons/md';
-import { LuUserCog } from "react-icons/lu";
-import { HiUserAdd } from "react-icons/hi";
+
 
 
 
@@ -96,8 +95,8 @@ const DashboardLayout = () => {
                                 onClick={closeDrawer}
 
                                 data-tip="My Participated Contests" end>
-                              
-                                <MdJoinFull   className='w-8 h-8'/>
+
+                                <MdJoinFull className='w-8 h-8' />
 
                                 <span className="is-drawer-close:hidden">My Participated Contests</span>
                             </NavLink>
@@ -127,13 +126,46 @@ const DashboardLayout = () => {
 
                         {/* Creator related dashboard links */}
 
-                        
+
+
+                        <li>
+
+                            <NavLink to="/dashboard/add-contest" className={({ isActive }) =>
+                                ` is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-error text-white border-b border-blue-600"
+                                    : ""
+                                }`}
+
+                                onClick={closeDrawer}
+
+                                data-tip="Add a contest" end>
+                                <FaRegCreditCard className='w-8 h-8' />
+                                <span className="is-drawer-close:hidden">Add a Contest</span>
+
+                            </NavLink>
+                        </li>
+
+
+                        <li>
+
+                            <NavLink to="/dashboard/my-created-contests" className={({ isActive }) =>
+                                ` is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-error text-white border-b border-blue-600"
+                                    : ""
+                                }`}
+
+                                onClick={closeDrawer}
+
+                                data-tip="My Created Contests" end>
+                                <FaRegCreditCard className='w-8 h-8' />
+                                <span className="is-drawer-close:hidden">My Created Contests</span>
+
+                            </NavLink>
+                        </li>
 
 
 
                         {/* Admin related dashboard links */}
 
-                        
+
 
 
                         {/* Profile */}

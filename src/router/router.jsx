@@ -9,6 +9,10 @@ import Register from "../Pages/AuthRelated/Register/Register";
 import Login from "../Pages/AuthRelated/Login/Login";
 import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardHome from "../Pages/DashboardRelated/DashboardHome/DashboardHome";
+import MyParticipitedContests from "../Pages/DashboardRelated/UserRelated/MyParticipatedContests/MyParticipitedContests";
+import MyWinngContests from "../Pages/DashboardRelated/UserRelated/MyWinningContests/MyWinngContests";
+import AddContestPage from "../Pages/DashboardRelated/CreatorRelated/AddContestPage/AddContestPage";
+import MyCreatedContests from "../Pages/DashboardRelated/CreatorRelated/MyCreatedContests/MyCreatedContests";
 
 
 export const router = createBrowserRouter([
@@ -66,7 +70,30 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: DashboardHome
-            }
+            },
+
+            {
+                path: "my-participated-contests",
+                element: <MyParticipitedContests></MyParticipitedContests>
+            },
+
+            {
+                path: "my-winning-contests",
+                element: <MyWinngContests></MyWinngContests>
+            },
+
+            // Creator related
+
+            {
+                path: "add-contest",
+                element: <AddContestPage></AddContestPage>
+            },
+
+            {
+                path: "my-created-contests",
+                element: <MyCreatedContests></MyCreatedContests>
+            },
+            
         ]
 
     }
