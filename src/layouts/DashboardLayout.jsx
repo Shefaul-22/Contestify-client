@@ -162,6 +162,23 @@ const DashboardLayout = () => {
                         </li>
 
 
+                        <li>
+
+                            <NavLink to="/dashboard/submitted-tasks" className={({ isActive }) =>
+                                ` is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-error text-white border-b border-blue-600"
+                                    : ""
+                                }`}
+
+                                onClick={closeDrawer}
+
+                                data-tip="Submitted tasks" end>
+                                <FaRegCreditCard className='w-8 h-8' />
+                                <span className="is-drawer-close:hidden">Submitted Tasks</span>
+
+                            </NavLink>
+                        </li>
+
+
 
                         {/* Admin related dashboard links */}
 

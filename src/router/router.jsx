@@ -13,6 +13,8 @@ import MyParticipitedContests from "../Pages/DashboardRelated/UserRelated/MyPart
 import MyWinngContests from "../Pages/DashboardRelated/UserRelated/MyWinningContests/MyWinngContests";
 import AddContestPage from "../Pages/DashboardRelated/CreatorRelated/AddContestPage/AddContestPage";
 import MyCreatedContests from "../Pages/DashboardRelated/CreatorRelated/MyCreatedContests/MyCreatedContests";
+import SubmittedTasksPage from "../Pages/DashboardRelated/CreatorRelated/SubmittedTasksPage/SubmittedTasksPage";
+import ContestSubmissions from "../Pages/DashboardRelated/CreatorRelated/ContestSubmissions/ContestSubmissions";
 
 
 export const router = createBrowserRouter([
@@ -93,6 +95,16 @@ export const router = createBrowserRouter([
                 path: "my-created-contests",
                 element: <MyCreatedContests></MyCreatedContests>
             },
+
+            {
+                path: "submitted-tasks",
+                element: <SubmittedTasksPage></SubmittedTasksPage>
+            },
+
+            {
+                path: "submissions/:contestId",
+                element: <ContestSubmissions></ContestSubmissions>
+            }
             
         ]
 
