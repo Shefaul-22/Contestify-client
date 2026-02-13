@@ -52,7 +52,7 @@ const ManageContests = () => {
         <div>
             <h2 className="text-3xl font-bold mb-6">Manage Contests</h2>
 
-            <table className="table">
+            <table className="table table-fixed">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -66,7 +66,7 @@ const ManageContests = () => {
                         <tr key={contest._id}>
                             <td>{contest.name}</td>
                             <td>{contest.status}</td>
-                            <td className="space-x-2">
+                            <td className="flex gap-2 flex-col md:flex-row">
 
                                 <button
                                     onClick={() =>
@@ -81,7 +81,7 @@ const ManageContests = () => {
                                     onClick={() =>
                                         rejectMutation.mutate(contest._id)
                                     }
-                                    className="btn btn-xs btn-warning"
+                                    className="btn btn-xs btn-warning "
                                 >
                                     Reject
                                 </button>
