@@ -15,6 +15,8 @@ import AddContestPage from "../Pages/DashboardRelated/CreatorRelated/AddContestP
 import MyCreatedContests from "../Pages/DashboardRelated/CreatorRelated/MyCreatedContests/MyCreatedContests";
 import SubmittedTasksPage from "../Pages/DashboardRelated/CreatorRelated/SubmittedTasksPage/SubmittedTasksPage";
 import ContestSubmissions from "../Pages/DashboardRelated/CreatorRelated/ContestSubmissions/ContestSubmissions";
+import ManageUsers from "../Pages/DashboardRelated/AdminRelated/ManageUsers/ManageUsers";
+import ManageContests from "../Pages/DashboardRelated/AdminRelated/ManageContests/ManageContests";
 
 
 export const router = createBrowserRouter([
@@ -82,6 +84,19 @@ export const router = createBrowserRouter([
             {
                 path: "my-winning-contests",
                 element: <MyWinngContests></MyWinngContests>
+            },
+
+            // Admin related 
+
+            {
+                path: "admin-manage-users",
+                element: <ManageUsers></ManageUsers>
+
+            },
+
+            {
+                path: "admin-manage-contests",
+                element: <ManageContests></ManageContests>
             },
 
             // Creator related
