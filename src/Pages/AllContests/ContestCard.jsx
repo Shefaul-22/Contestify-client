@@ -1,49 +1,65 @@
-import React from 'react';
-import { AiFillLike } from 'react-icons/ai';
+import React, { useEffect, useState } from 'react';
+
+import { CiLock } from 'react-icons/ci';
+import { FaLock } from 'react-icons/fa';
 
 import { useNavigate } from 'react-router';
 
 import Swal from "sweetalert2";
 
 
-const ContestCard = ({ contest, user, refetch, axiosSecure }) => {
+const ContestCard = ({ contest, user, }) => {
 
     // console.log(user,contest);
 
     const navigate = useNavigate();
 
-    
 
-    const handleUpvote = async () => {
+    const now = new Date();
+    const deadlineDate = new Date(contest.deadline);
 
-        if (!user) {
-            navigate("/login");
-            return;
-        }
+    let contestStatus = "";
 
-        if (contest.creatorEmail === user.email) {
+    if (contest.status === "approved") {
+        contestStatus = deadlineDate > now ? "Ongoing" : "Completed";
+    }
 
-            Swal.fire(
-                "Not allowed",
-                "You cannot upvote your own contest",
-                "warning"
-            );
 
-            return;
-        }
 
-        try {
-            await axiosSecure.patch(`/issues/${contest._id}/upvote`);
-            refetch();
+    // timer added
 
-        } catch (err) {
-            Swal.fire(
-                "Error",
-                err.response?.data?.message || "Already upvoted",
-                "error"
-            );
-        }
-    };
+    const [timeLeft, setTimeLeft] = useState("");
+
+    const [isExpired, setIsExpired] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const deadline = new Date(contest.deadline).getTime();
+            const distance = deadline - now;
+
+            if (distance <= 0) {
+
+                setTimeLeft("00:00:00");
+
+                setIsExpired(true);
+
+                clearInterval(interval);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((distance / (1000 * 60)) % 60);
+            const seconds = Math.floor((distance / 1000) % 60);
+
+            setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [contest.deadline]);
+
+
 
     const handleViewDetails = () => {
 
@@ -65,16 +81,19 @@ const ContestCard = ({ contest, user, refetch, axiosSecure }) => {
                     className="w-full h-80 object-cover rounded-md"
                 />
 
-                {/* Status + Priority */}
+                {/* Status */}
                 <div className=" absolute top-2 right-4 flex gap-2 my-2 justify-between">
 
-                    <span className={`badge px-3 py-2
-                        
-                        ${contest.status === "approved" && "badge-success"}
-                        ${contest.status === "ongoing" && "badge-info"}
-                    `}>
-                        {contest.status}
+                    <span
+                        className={`badge px-3 py-2
+                             ${contestStatus === "Ongoing" && "badge-success"}
+                             ${contestStatus === "Completed" && "badge-info"} `
+                        }
+                    >
+                        {contestStatus}
                     </span>
+
+
 
 
                 </div>
@@ -91,8 +110,8 @@ const ContestCard = ({ contest, user, refetch, axiosSecure }) => {
 
                 {/* contest registration price, prizemoney */}
                 <div className='flex gap-2 justify-between w-full mb-2 md:mb-3'>
-                    <h2 className="text-xl">${contest.price}</h2>
-                    <p className="text-xl text-gray-800">${contest.prizeMoney}</p>
+                    <p className="text-xl">Fee ${contest.price}</p>
+                    <p className="text-xl text-gray-800">Prize ${contest.prizeMoney}</p>
                 </div>
 
 
@@ -101,10 +120,17 @@ const ContestCard = ({ contest, user, refetch, axiosSecure }) => {
                 {/* Actions */}
                 <div className="flex justify-between items-center mt-4">
                     <button
-                        onClick={handleUpvote}
+
                         className="btn flex items-center gap-3 text-blue-600 bg-gray-200"
                     >
-                        <AiFillLike size={24} /> <span className='text-xl font-semibold'>{contest.submissions || 0}</span>
+                        <span className="btn flex items-center gap-2 bg-gray-200">
+
+                            {
+                                isExpired ? <FaLock size={24} /> : <CiLock size={24} />
+                            }
+                            <span>{timeLeft}</span>
+
+                        </span>
                     </button>
 
                     <button

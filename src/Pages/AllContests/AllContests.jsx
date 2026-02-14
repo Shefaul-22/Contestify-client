@@ -27,7 +27,7 @@ const AllContests = () => {
     const { data = {}, refetch, isFetching } = useQuery({
 
         queryKey: [
-            "allIssues",
+            "all-contests",
             filters.search,
             filters.category,
             filters.status,
@@ -49,7 +49,7 @@ const AllContests = () => {
         keepPreviousData: true
     });
 
-    // console.log(contests);
+    
 
     const handleSetFilters = useCallback((update) => {
         setFilters(prev => {
@@ -71,6 +71,8 @@ const AllContests = () => {
         total
 
     } = data
+
+    // console.log(contests);
 
     if (loading ) return <Loading />;
 

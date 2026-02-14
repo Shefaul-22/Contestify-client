@@ -47,8 +47,8 @@ const ContestsFilters = ({ filters, setFilters }) => {
                 onChange={handleChange}
             >
                 <option value="">All Status</option>
-                <option value="ongoing">Ongoing</option>
-                <option value="completed">Completed</option>
+                <option value="approved">Ongoing</option>
+                {/* <option >Completed</option> */}
                 
             </select>
 

@@ -3,7 +3,7 @@ import React from 'react';
 const ContestDetails = () => {
     return (
         <div>
-            Contest Details
+            <h2 className='text-black'>contest Details</h2>
         </div>
     );
 };

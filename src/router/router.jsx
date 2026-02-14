@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
 
             {
                 path: "contest/:id",
-                element: ContestDetails,
+                element: <ContestDetails></ContestDetails>,
             }
         ]
     },
