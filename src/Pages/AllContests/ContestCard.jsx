@@ -87,10 +87,16 @@ const ContestCard = ({ contest, user, }) => {
                     <span
                         className={`badge px-3 py-2
                              ${contestStatus === "Ongoing" && "badge-success"}
-                             ${contestStatus === "Completed" && "badge-info"} `
+                             ${contestStatus === "Completed" && "badge-info text-white font-bold"} `
                         }
                     >
-                        {contestStatus}
+                        {
+                            contest.status === "closed" ?
+
+                                <span className='text-gray-700'>Closed</span>
+                                :
+                                contestStatus
+                        }
                     </span>
 
 
@@ -123,7 +129,7 @@ const ContestCard = ({ contest, user, }) => {
 
                         className="btn flex items-center gap-3 text-blue-600 bg-gray-200"
                     >
-                        <span className="btn flex items-center gap-2 bg-gray-200">
+                        <span className=" flex items-center gap-2 ">
 
                             {
                                 isExpired ? <FaLock size={24} /> : <CiLock size={24} />
