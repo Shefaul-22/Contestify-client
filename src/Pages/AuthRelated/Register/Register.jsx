@@ -30,7 +30,7 @@ const Register = () => {
 
         Swal.fire({
             title: "Please Wait",
-            text: "Account is creating...",
+            text: "Registration is Processing...",
             icon: "info",
             showConfirmButton: false,
             allowOutsideClick: false

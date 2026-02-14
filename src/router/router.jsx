@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import HomePage from "../Pages/HomeRelated/HomePage/HomePage";
-import AllContexts from "../Pages/AllContests/AllContexts";
+import AllContests from "../Pages/AllContests/AllContests";
 import Services from "../Pages/Services/Services";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import AuthLayout from "../layouts/AuthLayout";
@@ -17,6 +17,8 @@ import SubmittedTasksPage from "../Pages/DashboardRelated/CreatorRelated/Submitt
 import ContestSubmissions from "../Pages/DashboardRelated/CreatorRelated/ContestSubmissions/ContestSubmissions";
 import ManageUsers from "../Pages/DashboardRelated/AdminRelated/ManageUsers/ManageUsers";
 import ManageContests from "../Pages/DashboardRelated/AdminRelated/ManageContests/ManageContests";
+import ContestDetails from "../Pages/ContestDetails/ContestDetails";
+
 
 
 export const router = createBrowserRouter([
@@ -34,7 +36,7 @@ export const router = createBrowserRouter([
 
             {
                 path: "all-contests",
-                Component: AllContexts
+                Component: AllContests
             },
 
             {
@@ -45,6 +47,11 @@ export const router = createBrowserRouter([
             {
                 path: "about-us",
                 Component: AboutUs
+            },
+
+            {
+                path: "contest/:id",
+                element: ContestDetails,
             }
         ]
     },

@@ -35,7 +35,7 @@ const AddContestPage = () => {
 
 
         try {
-            
+
             const contestImg = data.image[0];
             const formData = new FormData();
             formData.append('image', contestImg);
@@ -86,7 +86,7 @@ const AddContestPage = () => {
         <div className="max-w-5xl mx-auto">
             <h2 className="text-4xl font-bold mb-6">Add New Contest</h2>
 
-            <form onSubmit={handleSubmit(handleAddContest)} className="space-y-6">
+            <form onSubmit={handleSubmit(handleAddContest)} className="space-y-6 text-black">
 
                 {/* Contest Name */}
                 <div>
@@ -97,6 +97,22 @@ const AddContestPage = () => {
                         placeholder="Contest name"
                     />
                     {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                </div>
+
+                {/* Contest Type */}
+                <div>
+                    <label className="label">Contest Type</label>
+                    <select
+                        {...register('contestType', { required: true })}
+                        defaultValue=""
+                        className="select select-primary w-full"
+                    >
+                        <option value="" disabled>Select contest type</option>
+                        <option value="Design">Design</option>
+                        <option value="Article Writing">Article Writing</option>
+                        <option value="Business Idea">Business Idea</option>
+                        <option value="Gaming Review">Gaming Review</option>
+                    </select>
                 </div>
 
                 {/* Image */}
@@ -159,26 +175,12 @@ const AddContestPage = () => {
 
 
 
-                {/* Contest Type */}
-                <div>
-                    <label className="label">Contest Type</label>
-                    <select
-                        {...register('contestType', { required: true })}
-                        defaultValue=""
-                        className="select select-primary w-full"
-                    >
-                        <option value="" disabled>Select contest type</option>
-                        <option value="Design">Design</option>
-                        <option value="Article Writing">Article Writing</option>
-                        <option value="Business Idea">Business Idea</option>
-                        <option value="Gaming Review">Gaming Review</option>
-                    </select>
-                </div>
+
 
                 {/* Deadline */}
 
                 <div>
-                    <label className="label">Deadline</label>
+                    <label className="label mr-2">Deadline</label>
                     <DatePicker
                         selected={deadline}
                         onChange={(date) => setValue('deadline', date)}

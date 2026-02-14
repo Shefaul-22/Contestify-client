@@ -7,16 +7,17 @@ const RootLayout = () => {
     return (
         <div>
 
-            <Navbar></Navbar>
-
-            <div className='w-11/12 mx-auto mt-16'>
-
+            <div>
+                <Navbar></Navbar>
+            </div>
+            <div className='w-11/12 mx-auto pt-20 md:pt-24'>
                 <Outlet></Outlet>
-
             </div>
 
-            <Footer></Footer>
-
+            <div>
+                <Footer></Footer>
+            </div>
+            
         </div>
     );
 };
