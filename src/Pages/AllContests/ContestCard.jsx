@@ -67,7 +67,7 @@ const ContestCard = ({ contest, user, }) => {
             navigate("/login");
             return;
         }
-        navigate(`/contest/${contest._id}`);
+        navigate(`/contests/${contest._id}`);
     };
 
     return (

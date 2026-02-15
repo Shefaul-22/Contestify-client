@@ -18,6 +18,9 @@ import ContestSubmissions from "../Pages/DashboardRelated/CreatorRelated/Contest
 import ManageUsers from "../Pages/DashboardRelated/AdminRelated/ManageUsers/ManageUsers";
 import ManageContests from "../Pages/DashboardRelated/AdminRelated/ManageContests/ManageContests";
 import ContestDetails from "../Pages/ContestDetails/ContestDetails";
+import PrivateRoute from "./PrivateRoute";
+import Forbidden from "../components/Forbidden/Forbidden";
+
 
 
 
@@ -50,8 +53,13 @@ export const router = createBrowserRouter([
             },
 
             {
-                path: "contest/:id",
-                element: <ContestDetails></ContestDetails>,
+                path: "contests/:id",
+                element: <PrivateRoute><ContestDetails></ContestDetails></PrivateRoute>,
+            },
+
+            {
+                path: "forbidden",
+                Component: Forbidden,
             }
         ]
     },
@@ -118,6 +126,8 @@ export const router = createBrowserRouter([
                 element: <MyCreatedContests></MyCreatedContests>
             },
 
+
+
             {
                 path: "submitted-tasks",
                 element: <SubmittedTasksPage></SubmittedTasksPage>
@@ -127,7 +137,7 @@ export const router = createBrowserRouter([
                 path: "submissions/:contestId",
                 element: <ContestSubmissions></ContestSubmissions>
             }
-            
+
         ]
 
     }

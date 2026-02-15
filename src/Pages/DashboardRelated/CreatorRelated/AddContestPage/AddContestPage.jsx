@@ -146,7 +146,7 @@ const AddContestPage = () => {
                             type="number"
                             {...register('price', { required: true })}
                             className="input input-primary w-full"
-                            placeholder="$ Price"
+                            placeholder="BDT Price"
                         />
                     </div>
 
@@ -156,7 +156,7 @@ const AddContestPage = () => {
                             type="number"
                             {...register('prizeMoney', { required: true })}
                             className="input input-primary w-full"
-                            placeholder="$ Prize money"
+                            placeholder="BDT Prize money"
                         />
                     </div>
                 </div>

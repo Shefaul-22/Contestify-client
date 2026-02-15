@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import UseAuth from '../../../../Hooks/UseAuth';
 import useAxiosSecure from '../../../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import EditContestModal from './EditContestModal';
 
 const MyCreatedContests = () => {
 
     const { user } = UseAuth();
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
+
+    const [selectedContestId, setSelectedContestId] = useState(null);
 
     const { data: contests = [], isLoading } = useQuery({
         queryKey: ['myContests', user?.email],
@@ -68,12 +71,12 @@ const MyCreatedContests = () => {
 
                                 {contest.status === 'pending' && (
                                     <>
-                                        <Link
-                                            to={`/dashboard/edit-contest/${contest._id}`}
+                                        <button
+                                            onClick={() => setSelectedContestId(contest._id)}
                                             className="btn btn-sm btn-info"
                                         >
                                             Edit
-                                        </Link>
+                                        </button>
 
                                         <button
                                             onClick={() => handleDelete(contest._id)}
@@ -96,6 +99,14 @@ const MyCreatedContests = () => {
                     ))}
                 </tbody>
             </table>
+
+            {
+                selectedContestId && (
+                    <EditContestModal
+                        id={selectedContestId}
+                        closeModal={() => setSelectedContestId(null)}
+                    />
+                )}
         </div>
     );
 };

@@ -1,67 +1,63 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
-
-import { useNavigate } from 'react-router';
-import UseAuth from './UseAuth';
-
-
-
-
-
-
-
+import { useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import UseAuth from "./UseAuth";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:3000'
-})
+    baseURL: "http://localhost:3000",
+});
 
 const useAxiosSecure = () => {
-
-    const { user, logOutUser } = UseAuth();
-    // console.log(user);
+    const { user, loading, logOutUser } = UseAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // intercept request
-        const reqInterceptor = axiosSecure.interceptors.request.use(config => {
-            config.headers.Authorization = `Bearer ${user?.accessToken}`
-            return config
-        })
+        const requestInterceptor = axiosSecure.interceptors.request.use(
+            async (config) => {
 
-        // interceptor response
-        const resInterceptor = axiosSecure.interceptors.response.use((response) => {
-            return response;
-        }, (error) => {
-            console.log(error);
 
-            // const statusCode = error.status;
-            // if (statusCode === 401 || statusCode === 403) {
-            //     logOut()
-            //         .then(() => {
-            //             navigate('/login')
-            //         })
-            // }
+                if (loading || !user) {
+                    return Promise.reject(new axios.Cancel("Auth not ready"));
+                }
 
-            const statusCode = error.response?.status;
 
-            if (statusCode === 401 || statusCode === 403) {
+                const token = await user.getIdToken(true);
 
-                logOutUser().then(() => navigate('/login'));
-
+                config.headers.Authorization = `Bearer ${token}`;
+                return config;
             }
+        );
+
+        const responseInterceptor = axiosSecure.interceptors.response.use(
+            (response) => response,
+            async (error) => {
 
 
+                if (axios.isCancel(error)) {
+                    return Promise.reject(error);
+                }
+
+                const status = error.response?.status;
 
 
-            return Promise.reject(error);
-        })
+                if (status === 401 ) {
+                    await logOutUser();
+                    navigate("/login");
+                }
+
+                if (status === 403) {
+                    navigate("/forbidden");
+                }
+
+                return Promise.reject(error);
+            }
+        );
 
         return () => {
-            axiosSecure.interceptors.request.eject(reqInterceptor);
-            axiosSecure.interceptors.response.eject(resInterceptor);
-        }
-
-    }, [user, logOutUser, navigate])
+            axiosSecure.interceptors.request.eject(requestInterceptor);
+            axiosSecure.interceptors.response.eject(responseInterceptor);
+        };
+    }, [user, loading, logOutUser, navigate]);
 
     return axiosSecure;
 };

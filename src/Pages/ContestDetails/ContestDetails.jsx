@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Swal from "sweetalert2";
 import Loading from "../../components/Loading/Loading";
@@ -11,36 +12,43 @@ const ContestDetails = () => {
     const { id } = useParams();
     const { user, loading } = UseAuth();
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
 
-
-    const [contest, setContest] = useState(null);
     const [timeLeft, setTimeLeft] = useState("");
     const [isEnded, setIsEnded] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [submissionLink, setSubmissionLink] = useState("");
 
-    //  Fetch Contest
-    useEffect(() => {
-        axiosSecure.get(`/contests/${id}`)
-            .then(res => setContest(res.data))
-            .catch(err => console.error(err));
-    }, [id, axiosSecure]);
+    // Contest Fetch → TanStack Query
+    const {
+        data: contest,
+        isLoading,
 
+    } = useQuery({
+        queryKey: ["contest", id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/contests/${id}`);
+            return res.data;
+        },
+        enabled: !!id && !!user && !loading,
+        retry: false
+    });
 
+    //  Payment Success Handle
     useEffect(() => {
+
+        if (!user || loading) return;   
+
         const params = new URLSearchParams(window.location.search);
         const sessionId = params.get("session_id");
         const paymentCancelled = params.get("payment");
 
         if (sessionId) {
-            axiosSecure
-                .patch(`/contest-payment-success?session_id=${sessionId}`)
+            axiosSecure.patch(`/contest-payment-success?session_id=${sessionId}`)
                 .then(res => {
                     if (res.data.success) {
 
-                        //  contest refetch
-                        axiosSecure.get(`/contests/${id}`)
-                            .then(r => setContest(r.data));
+                        queryClient.invalidateQueries(["contest", id]);
 
                         Swal.fire(
                             "Success",
@@ -48,12 +56,11 @@ const ContestDetails = () => {
                             "success"
                         );
 
-                        // optional: remove session_id from URL
                         window.history.replaceState({}, document.title, `/contests/${id}`);
                     }
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.log("Payment verify error:", err.response?.data);
                     Swal.fire("Error", "Payment verification failed", "error");
                 });
         }
@@ -65,17 +72,18 @@ const ContestDetails = () => {
                 "info"
             );
 
-            // optional clean URL
             window.history.replaceState({}, document.title, `/contests/${id}`);
         }
 
-    }, [id, axiosSecure]);
+    }, [user, loading, id, axiosSecure, queryClient]);
 
-    //  Countdown
+    //  Countdown (unchanged)
     useEffect(() => {
+
         if (!contest?.deadline) return;
 
         const interval = setInterval(() => {
+
             const diff = new Date(contest.deadline) - new Date();
 
             if (diff <= 0) {
@@ -99,11 +107,11 @@ const ContestDetails = () => {
 
     }, [contest?.deadline]);
 
-    if (!contest || loading) return <Loading />;
+    if (isLoading || loading) return <Loading />;
 
-    const isRegistered = contest.participants?.includes(user?.email);
+    const isRegistered = contest?.participants?.includes(user?.email);
 
-    //  Payment
+    //  Register (same)
     const handleRegister = async () => {
 
         if (isEnded) return;
@@ -116,24 +124,21 @@ const ContestDetails = () => {
 
             window.location.href = res.data.url;
 
-        } catch (error) {
-
-            console.error(error)
+        } catch {
             Swal.fire("Error", "Payment failed", "error");
         }
     };
 
-    // Submit Task
+    //  Submit (same)
     const handleSubmit = async () => {
 
         if (!submissionLink)
             return Swal.fire("Warning", "Provide submission link", "warning");
 
-        try {
+        if (isEnded)
+            return Swal.fire("Contest Ended", "Submission closed", "warning");
 
-            if (isEnded) {
-                return Swal.fire("Contest Ended", "Submission closed", "warning");
-            }
+        try {
             await axiosSecure.post("/submissions", {
                 contestId: contest._id,
                 email: user.email,
@@ -144,12 +149,11 @@ const ContestDetails = () => {
             setShowModal(false);
             setSubmissionLink("");
 
-        } catch (error) {
-
-            console.error(error)
+        } catch {
             Swal.fire("Error", "Submission failed", "error");
         }
     };
+
 
     return (
 
@@ -203,7 +207,9 @@ const ContestDetails = () => {
                     <div className="absolute top-2 right-2 flex gap-3">
 
                         <span className={`px-3 py-2 text-white text-xs rounded ${isEnded ? "bg-gray-500" : "bg-green-500"}`}>
-                            {isEnded ? "Ended" : "Live"}
+                            {
+                                isEnded ? "Ended" : "Live"
+                            }
                         </span>
 
                         <span className="px-3 py-2 text-white text-xs rounded bg-blue-500">
@@ -242,19 +248,20 @@ const ContestDetails = () => {
             </div>
 
             {/* WINNER SECTION */}
-            {contest.winner && (
-                <div className="my-8 p-4 border rounded-lg bg-base-200">
-                    <h3 className="text-2xl font-bold mb-3">Winner</h3>
-                    <div className="flex items-center gap-4">
-                        <img
-                            src={contest.winner.photo}
-                            alt="winner"
-                            className="w-16 h-16 rounded-full"
-                        />
-                        <p className="text-lg">{contest.winner.name}</p>
+            {
+                contest.winner && (
+                    <div className="my-8 p-4 border rounded-lg bg-base-200">
+                        <h3 className="text-2xl font-bold mb-3">Winner</h3>
+                        <div className="flex items-center gap-4">
+                            <img
+                                src={contest.winner.photo}
+                                alt="winner"
+                                className="w-16 h-16 rounded-full"
+                            />
+                            <p className="text-lg">{contest.winner.name}</p>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
             {/* MODAL */}
             {showModal && (
