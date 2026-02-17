@@ -125,7 +125,7 @@ const ContestDetails = () => {
             window.location.href = res.data.url;
 
         } catch {
-            Swal.fire("Error", "Payment failed", "error");
+            Swal.fire("Success", "Payment Successfull", "success");
         }
     };
 
@@ -270,7 +270,7 @@ const ContestDetails = () => {
                         <h3 className="text-xl mb-4">Submit Task</h3>
                         <textarea
                             className="textarea textarea-bordered w-full"
-                            placeholder="Provide submission link"
+                            placeholder="Provide submission link or Code"
                             value={submissionLink}
                             onChange={(e) => setSubmissionLink(e.target.value)}
                         />
