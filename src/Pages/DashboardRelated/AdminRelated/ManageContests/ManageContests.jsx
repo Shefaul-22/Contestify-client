@@ -73,7 +73,7 @@ const ManageContests = () => {
                                         approveMutation.mutate(contest._id)
                                     }
                                     className="btn btn-xs btn-success"
-                                    disabled={contest.status === 'approved'}
+                                    disabled={contest.status === 'approved' || contest.status === 'completed'}
                                 >
                                     Confirm
                                 </button>
@@ -83,7 +83,7 @@ const ManageContests = () => {
                                         rejectMutation.mutate(contest._id)
                                     }
                                     className="btn btn-xs btn-warning "
-                                    disabled={contest.status === 'approved'}
+                                    disabled={contest.status === 'approved' || contest.status === 'completed'}
                                 >
                                     Reject
                                 </button>

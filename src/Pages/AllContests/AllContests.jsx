@@ -7,11 +7,16 @@ import Loading from "../../components/Loading/Loading";
 
 import ContestsFilters from "./ContestsFilters";
 import ContestCard from "./ContestCard";
+import UseAxios from "../../Hooks/UseAxios";
 
 const AllContests = () => {
 
     const { user, loading } = UseAuth();
+
+    const axios = UseAxios();
+
     const axiosSecure = useAxiosSecure();
+
 
     const [filters, setFilters] = useState({
         search: "",
@@ -36,7 +41,7 @@ const AllContests = () => {
         ],
 
         queryFn: async () => {
-            const res = await axiosSecure.get("/contests", {
+            const res = await axios.get("/contests", {
                 params: {
                     ...filters,
                     page,
