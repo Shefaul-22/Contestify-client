@@ -57,6 +57,7 @@ const ContestCard = ({ contest, user, }) => {
         }, 1000);
 
         return () => clearInterval(interval);
+
     }, [contest.deadline]);
 
 
