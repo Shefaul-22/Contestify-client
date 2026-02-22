@@ -26,15 +26,15 @@ const PopularContests = () => {
         <div className=" py-6 md:py-8 ">
 
             <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl md:text-4xl font-bold">
                     🔥 Popular Contests
                 </h2>
 
                 <button
-                    onClick={() => navigate("/contests")}
-                    className="btn btn-outline"
+                    onClick={() => navigate("/all-contests")}
+                    className="btn btn-primary"
                 >
-                    Show All
+                    Show All <span className="hidden md:inline">Contests</span>
                 </button>
             </div>
 
@@ -50,7 +50,7 @@ const PopularContests = () => {
                         <img
                             src={contest.image}
                             alt={contest.name}
-                            className="h-48 w-full object-cover"
+                            className="h-72 w-full object-fit"
                         />
 
                         <div className="p-4">

@@ -22,7 +22,7 @@ const AllContests = () => {
         search: "",
         status: "",
         category: "",
-        
+
     });
 
     // pagination functionality
@@ -36,7 +36,7 @@ const AllContests = () => {
             filters.search,
             filters.category,
             filters.status,
-            
+
             page
         ],
 
@@ -54,7 +54,7 @@ const AllContests = () => {
         keepPreviousData: true
     });
 
-    
+
 
     const handleSetFilters = useCallback((update) => {
         setFilters(prev => {
@@ -79,13 +79,15 @@ const AllContests = () => {
 
     // console.log(contests);
 
-    if (loading ) return <Loading />;
+    
+
+    if (loading) return <Loading />;
 
     return (
 
         <div>
 
-            <h2 className="text-xl md:text-3xl lg:text-4xl my-4">
+            <h2 className="text-xl md:text-3xl lg:text-4xl my-4 font-bold">
                 All Contests : {total}
             </h2>
 

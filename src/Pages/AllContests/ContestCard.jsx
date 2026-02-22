@@ -79,7 +79,7 @@ const ContestCard = ({ contest, user, }) => {
                 <img
                     src={contest.image}
                     alt={contest.name}
-                    className="w-full h-80 object-cover rounded-md"
+                    className="w-full h-80 object-fit rounded-md"
                 />
 
                 {/* Status */}
