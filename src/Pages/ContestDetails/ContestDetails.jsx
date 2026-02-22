@@ -150,7 +150,7 @@ const ContestDetails = () => {
             setSubmissionLink("");
 
         } catch {
-            Swal.fire("Error", "Submission failed", "error");
+            Swal.fire("Error", "Already You have Submitted !! ", "error");
         }
     };
 

@@ -1,9 +1,12 @@
 import React from 'react';
+import Banner from '../Banner/Banner';
+import PopularContests from '../PopularContests/PopularContests';
 
 const HomePage = () => {
     return (
-        <div className='my-6'>
-            <p className='text-2xl font-bold'>This is home</p>
+        <div className='space-y-4'>
+            <Banner></Banner>
+            <PopularContests></PopularContests>
         </div>
     );
 };
